@@ -1,0 +1,11 @@
+{% load static %}
+  <li class="comment bg-light" style="border-radius:10px">
+    <div class="vcard bio p-2">
+  <img src="{% static 'images/'|add:sample|add:'.png' %}" alt="Image placeholder">
+</div>
+    <div class="comment-body">
+      <h3>{{comment.by}}</h3>
+      <div class="meta">{{comment.created_at}}</div>
+      <p>{{comment.content}}</p>
+    </div>
+  </li>

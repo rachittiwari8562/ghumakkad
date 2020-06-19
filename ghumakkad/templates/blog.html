@@ -1,0 +1,304 @@
+{%extends 'base.html' %}
+{% load static%}
+{% block style%}
+<style>
+.special{
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 100%; /* 16:9 Aspect Ratio */
+}
+
+.responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height:100%;
+}
+.stories{
+  background:url("{% static 'images/blog.png' %}");
+  background-repeat: no-repeat;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.rotate{
+  animation: rotate 1.5s linear infinite;
+}
+@keyframes rotate{
+  to{ transform: rotate(360deg); }
+}
+.spinner{
+  margin-top:5px;
+  display:inline-block;
+  width: 30px;
+  height:30px;
+  border-radius: 50%;
+  box-shadow: inset -2px 0 0 2px #006400;
+}
+.sending{
+  visibility:hidden;
+  opacity:0;
+}
+</style>
+{% endblock%}
+{% block content%}
+<section class="hero-wrap hero-wrap-2 stories" data-stellar-background-ratio="0.5">
+<div class="overlay"></div>
+<div class="container">
+<div class="row no-gutters slider-text align-items-end justify-content-start">
+    <h1 class="mb-3 bread"><b>Stories To Satisfy Wanderlust</b></h1>
+</div>
+</div>
+</section>
+<section class="ftco-section">
+    <h2 class="text-center mb-2 mb-md-5">Read Blogs</h2>
+  <div class="container blogging">
+{% include 'blogging.html'%}
+</div>
+<div class="your container mt-5 pb-3 bg-light" style="border-radius:10px">
+  <h3 class="m-2 pt-3 text-center">Upload Your Blog</h3>
+  <form type="post" id="uploadform" enctype="multipart/form-data" novalidate="">{%csrf_token%}
+      <div class="row">
+      <div class="col-4 col-md-2">
+    <h5>Name:</h5>
+    </div>
+    <div class="col-8 col-md-10">
+    <input type="text" id="name" name="by">
+    </div>
+    <div class="col-12">
+      <i><p id="errorname" style="color:red"><p></i>
+        </div>
+    </div>
+      <div class="row my-3">
+      <div class="col-12 col-md-6">
+        <div class="row">
+          <div class="col-4">
+            <h5>State :</h5>
+            </div>
+            <div class="col-8">
+    <select style="width:100%"id="state" name="state">
+      <option>Andhra Pradesh</option>
+      <option>Arunachal Pradesh</option>
+      <option>Assam</option>
+      <option>Bihar</option>
+      <option>Chandigarh</option>
+      <option>Chhattisgarh</option>
+      <option>Delhi</option>
+      <option>Goa</option>
+      <option>Gujarat</option>
+      <option>Haryana</option>
+      <option>Himachal Pradesh</option>
+      <option>Jammu and Kashmir</option>
+      <option>Jharkhand</option>
+      <option>Karnataka</option>
+      <option>Kerala</option>
+      <option>Ladakh</option>
+      <option>Madhya Pradesh</option>
+      <option>Maharashtra</option>
+      <option>Manipur</option>
+      <option>Meghalaya</option>
+      <option>Mizoram</option>
+      <option>Nagaland</option>
+      <option>Odisha</option>
+      <option>Punjab</option>
+      <option>Rajasthan</option>
+      <option>Sikkim</option>
+      <option>Tamil Nadu</option>
+      <option>Telangana</option>
+      <option>Tripura</option>
+      <option>Uttar Pradesh</option>
+      <option>Uttarakhand</option>
+      <option>West Bengal</option>
+      </select>
+      </div>
+      <div class="col-12">
+        <i><p id="errorstate" style="color:red"><p></i>
+          </div>
+      </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="row">
+          <div class="col-4">
+            <h5>District :</h5>
+            </div>
+            <div class="col-8">
+    <select style="width:100%" id="district" name="district">
+      {% include 'options.html' %}
+      </select>
+      </div>
+      <div class="col-12">
+        <i><p id="errordistrict" style="color:red"><p></i>
+          </div>
+      </div>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-4 col-md-2">
+          <h5>Description:</h5>
+          </div>
+          <div class="col-8 col-md-4" >
+    <input type="text" id="description" name="description" style="width:100%">
+    </div>
+    <div class="col-12">
+      <i><p id="errordescription" style="color:red"><p></i>
+        </div>
+    </div>
+    <div class="row my-3 pb-5">
+      <div class="col-12 col-md-6">
+        <div class="row">
+        <div class="col-5 col-md-4">
+          <h5>Upload File</h5>
+          </div>
+          <div class="col-7 col-md-8">
+            <input type="file" name="file" id="file">
+            </div>
+            <div class="col-12">
+              <i><p id="errorfile" style="color:red"><p></i>
+                </div>
+            </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="row">
+              <div class="col-5 col-md-4">
+              <h5>Upload Photo</h5>
+                </div>
+                <div class="col-7 col-md-8">
+                  <input type="file" name="photo" id="photo">
+                  </div>
+                  <div class="col-12">
+                    <i><p id="errorphoto" style="color:red"><p></i>
+                      </div>
+                  </div>
+                  </div>
+                  </div>
+                  <input type="hidden" name="published" value="no">
+                  <div class="text-center pb-5">
+                  <button class="btn btn-primary uploading" id="upl">Upload Your Blog</button>
+                  </div>
+                </form>
+                <div class="row justify-content-center">
+                <div class="mx-5 text-center"><h4 class="p-2 sending" style="border-radius:5px;background-color:#ADFF2F;color:#006400"><b>Data Sending </b><span class="spinner rotate"></span></h4></div>
+                  </div>
+                  </div>
+</section>
+<div class="container">
+  {% if all_blogs.has_other_pages %}
+  <ul class="pagination justify-content-center">
+    {% if all_blogs.has_previous %}
+      <li class="page-item"><a class="page-link"href="?page={{ all_blogs.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+    {% endif %}
+    {% for i in all_blogs.paginator.page_range %}
+      {% if all_blogs.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if all_blogs.has_next %}
+      <li class="page-item" ><a class="page-link" href="?page={{ all_blogs.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+    {% endif %}
+  </ul>
+{%endif%}
+  </div>
+{%endblock%}
+{%block script%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $("#state").change(function(){
+    $.ajax({
+      data:{stut:$("#state").val()},
+      success:function(responses){
+        $("#district").html(responses['sorry']);
+      }
+    });
+  });
+  $("#uploadform").submit(function(e){
+    e.preventDefault();
+    $form = $(this)
+    var formData = new FormData(this);
+    $(".sending").css({"background-color":"#ADFF2F","color":"#006400"});
+    $(".sending").html("<b>Data Sending </b><span class='spinner rotate'></span>");
+    $(".sending").css("visibility","visible");
+    $(".sending").css("opacity","1");
+    $.ajax({
+      type:"POST",
+      data:formData,
+      success:function(responses){
+        if (responses['error']=='no'){
+          $("#errorname").html("");
+          $("#errorstate").html("");
+          $("#errordistrict").html("");
+          $("#errorfile").html("");
+          $("#errorphoto").html("");
+          $("#errordescription").html("");
+          $(".sending").html("<b>Data Sent </b>");
+          $("#name").val("");
+          $("#state").val("");
+          $("#description").val("");
+          $("#district").val("");
+          $("#photo").val("");
+          $("#file").val("");
+          $(".sending").animate({opacity:0,},{duration:3000});
+        }
+        else{
+          $('.sending').animate({opacity:0,},{duration:2000});
+          $('.sending').css({"background-color":"#ff9999","color":"#990000"});
+          $('.sending').html("<b>Upload Failed</b>");
+          $('.sending').css('opacity',"1");
+          $('.sending').animate({
+            opacity:0,
+          },{duration:3000});
+          console.log(responses['by'])
+          if ('by' in responses){
+            $("#errorname").html("*"+responses['by']);
+          }
+          else{
+            $("#errorname").html("");
+          }
+          if ('state' in responses){
+            $("#errorstate").html("*"+responses['state']);
+          }
+          else{
+            $("#errorstate").html("");
+
+          }
+          if ('district' in responses){
+            $("#errordistrict").html("*"+responses['district']);
+          }
+          else{
+            $("#errordistrict").html("");
+          }
+          if ('file' in responses){
+            $("#errorfile").html("*"+responses['file']);
+          }
+          else{
+            $("#errorfile").html("");
+          }
+          if ('photo' in responses){
+            $("#errorphoto").html("*"+responses['photo']);
+          }
+          else{
+            $("#errorphoto").html("");
+          }
+          if ('description' in responses){
+            $("#errordescription").html("*"+responses['description']);
+          }
+          else{
+            $("#errordescription").html("");
+          }
+        }
+      },
+      cache:false,
+      contentType: false,
+      processData: false
+    });
+  });
+  </script>
+{%endblock%}

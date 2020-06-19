@@ -1,0 +1,18 @@
+<div class="row justify-content-center">
+    {%for blogs in all_blogs%}
+    <div class="col-md-6 col-lg-4 d-flexftco-animate p-5  bg-light" style="border-radius:10px">
+      <div class="blog-entry">
+        <div class="block-18">
+          <img src={{blogs.photo.url}} width="100%" height="200px"  style="border-radius:10px">
+        </div>
+          <h3 class="heading">{{blogs.description}}</h3>
+          <p class="ml-auto mb-0"><a href="{% url 'showplace' blogs.state blogs.district %}"><b>in {{blogs.district}},{{blogs.state}}</b></a></p>
+          <p class="ml-auto mb-0">{{blogs.created_at}}</p>
+          <div class="d-flex align-items-center mt-4 meta">
+            <p class="mb-0"><a href='{{blogs.file.url}}' class="btn btn-primary">Read More<span class="ion-ios-arrow-round-forward"></span></a></p>
+            <p class="ml-auto mb-0">By : {{blogs.by}}</p>
+          </div>
+        </div>
+      </div>
+      {%endfor%}
+</div>
