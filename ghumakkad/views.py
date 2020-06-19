@@ -171,7 +171,7 @@ def show_place(request,statue,state):
 def show_blog(request):
     if request.is_ajax():
         if request.method=="GET":
-            other=Sd.objects.filter(state=request.GET['stut'])
+            other=District.objects.filter(state=request.GET['stut'])
             sorry=render_to_string(template_name="options.html",context={'district':other})
             return JsonResponse({'sorry':sorry},safe=False)
         else:
@@ -199,5 +199,5 @@ def show_blog(request):
             blogs = paginator.page(1)
         except EmptyPage:
             blogs = paginator.page(paginator.num_pages)
-        district=Sd.objects.filter(state='Andhra Pradesh')
+        district=District.objects.filter(state='Andhra Pradesh')
         return render(request,'blog.html',{'all_blogs':blogs,'district':district})
