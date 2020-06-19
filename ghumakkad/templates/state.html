@@ -176,6 +176,7 @@ font-weight:600;
            <div class="container">
            <div class="photos bg-light" style="border-radius:5px">
              <h2 class="text-center"><b>Photos</b></h2>
+		{% if state.image_source %}   
              <div class="project pb-3">
                <div class="img">
                 <img src="{% static 'blog/'|add:state.image_source %}" style="border:10px solid pink" class="img-fluid">
@@ -184,6 +185,7 @@ font-weight:600;
                  <span class="icon-expand"></span>
                </a>
              </div>
+		   {%endif%}
            </div>
              </div>
              </div>
